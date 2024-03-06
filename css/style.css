@@ -1,0 +1,316 @@
+:root {
+	--primary-color: #ffd15b;
+	--secondary-color: #1b1b1b;
+	--tertiary-color: #ededed;
+	--light-grey: #c6c6c6;
+	--dark-grey: #7a7a7a;
+  
+	--primary-font-family: Anton, Arial, Sans-serif;
+	--secondary-font-family: Manrope, Arial, Sans-serif;
+  }
+  
+  body {
+	max-width: 1440px;
+	margin: 0 auto;
+	font-family: Anton, Arial, Sans-serif;
+  }
+  
+  header {
+	background: url('../assets/site/lampos-aritonang-24gR_9lCdes-unsplash1.png');
+	height: 56vw;
+	background-size: cover;
+	max-height: 667px;
+	min-height: 380px;
+  }
+  
+  
+  .header-logo {
+	height: 25px;
+	width: 207px;
+	margin-top: 50px;
+	margin-left: 70px;
+  }
+  
+  
+  .header-slogan {
+	font-family: var(--primary-font-family);
+	font-size: 2.5rem;
+	color: var(--primary-color);
+	text-align: center;
+	margin: 0 auto;
+	width: 69%;
+	margin-top: 12%;
+  }
+  
+  
+  
+  .header-searchbar {
+	display: flex;
+	align-items: center;
+	position: relative;
+	padding: 0 20px;
+	width: calc(100% - 40px);
+	max-width: 994px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+  }
+  
+  .header-searchbar .header-input_searchbar {
+	width: 100%;
+	height: 72px;
+	border-radius: 11px;
+	border: none;
+	font-family: var(--secondary-font-family);
+	font-size: 22px;
+	padding-left: 20px;
+  }
+  
+  
+  .header-searchbar .header-input_searchbar::placeholder {
+	padding-left: 20px;
+	padding-right: 50px;
+  }
+  
+  .header-searchbar .fa-stack {
+	position: absolute;
+	right: 20px;
+  }
+  
+  .header-searchbar .fa-square {
+	color: black;
+  }
+  
+  .header-searchbar .fa-magnifying-glass {
+	color: white;
+  }
+  
+  main {
+	background: var(--tertiary-color);
+	max-width: 1440px;
+	height: 100%;
+	padding-bottom: 140px;
+  }
+  
+  main .list-recipe-cards {
+	display: flex;
+	justify-content: space-between;
+	margin-left: 5vw;
+	margin-right: 5vw;
+	gap: 20px;
+	position: absolute;
+  }
+  
+  
+  
+  main .list-recipe-cards .dropdown-bar {
+	display: flex;
+	padding: 20px 5px;
+	gap: 55px;
+  }
+  
+  
+  
+  
+  
+  main .list-recipe-cards .dropdown {
+	position: relative;
+	display: inline-block;
+	background-color: white;
+	width: 195px;
+	border-radius: 10px;
+	margin: 20px 30px 20px 0px;
+	font-family: var(--secondary-font-family);
+	height: fit-content;
+  }
+  
+  main .list-recipe-cards .dropdown-title {
+	position: relative;
+	display: inline-block;
+	height: 56px;
+	background-color: white;
+	border-radius: 10px;
+	padding-left: 15px;
+	border: none;
+	font-size: 16px;
+	font-weight: 500;
+	width: 100%;
+  }
+  
+  main .list-recipe-cards .dropdown-title:after {
+	font-family: 'Font Awesome 6 Free';
+	content: '\f078';
+	margin-left: 40px;
+	font-weight: 900;
+	display: inline-block;
+	transition: transform 0.3s;
+  }
+  
+  main .list-recipe-cards .dropdown-content {
+	display: none;
+	position: relative;
+	min-width: 160px;
+	z-index: 1;
+	background-color: white;
+	border-radius: 10px;
+  }
+  
+  main .list-recipe-cards .dropdown:hover > .dropdown-content {
+	display: block;
+	position: relative;
+	box-shadow: 0px 10px 16px -6px rgba(0, 0, 0, 0.2);
+  }
+  
+  main .list-recipe-cards #dropdown-search-ingredients,
+  main .list-recipe-cards #dropdown-search-appareils,
+  main .list-recipe-cards #dropdown-search-utensils {
+	margin: 0px 15px;
+	width: 122px;
+	height: 36px;
+	border: 1px solid var(--light-grey);
+	position: relative;
+	padding-right: 30px;
+	padding-left: 10px;
+  }
+  
+  main .list-recipe-cards .fa-magnifying-glass {
+	color: var(--light-grey);
+	position: absolute;
+	top: 12px;
+	right: 24px;
+  }
+  
+  main .list-recipe-cards .dropdown-content ul {
+	padding: 15px 0 15px 0;
+	margin-bottom: 0px;
+	display: flex;
+	flex-wrap: wrap;
+	max-height: 60vh;
+	width: 767px;
+	background-color: white;
+	overflow-y: auto;
+	box-shadow: 0px 10px 16px -6px rgba(0, 0, 0, 0.2);
+	border-radius: 0 10px 10px 10px;
+  }
+  
+  
+  main .list-recipe-cards .dropdown-content li {
+	padding: 8px 16px;
+	cursor: pointer;
+	list-style: none;
+	text-align: left;
+	font-size: 14px;
+	font-weight: 400;
+	width: 25%;
+	box-sizing: border-box;
+  }
+  
+  
+  main .list-recipe-cards .dropdown-content li:hover {
+	background-color: var(--primary-color);
+  }
+  
+  main .recipes-number {
+	font-size: 21px;
+	font-weight: 400;
+	margin-top: 45px;
+	position: relative;
+  }
+  
+  
+  
+  main .addedTags {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	flex-direction: row;
+	margin-left: 70px;
+	top: 115px;
+	gap: 25px;
+	padding-left: 5px;
+  }
+  
+  
+  
+  
+  main .addedTags .tag {
+	background-color: var(--primary-color);
+	font-family: var(--secondary-font-family);
+	border-radius: 10px;
+	padding: 17px;
+  }
+  
+  main .addedTags .tag:after {
+	font-family: 'Font Awesome 6 Free';
+	content: '\f00d';
+	margin-left: 40px;
+	font-weight: 900;
+	display: inline-block;
+	transition: transform 0.3s;
+  }
+  
+  main .recipeSection {
+	margin-left: auto;
+	margin-right: auto;
+	width: 93%;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	column-gap: 80px;
+	padding-bottom: 60px;
+	justify-items: center;
+	align-items: center;
+	position: relative;
+	row-gap: 50px;
+	top: 150px;
+  }
+  
+  
+  
+  main .recipeSection .errorMessage {
+	font-family: var(--secondary-font-family);
+	font-size: 22px;
+	margin-bottom: 40px;
+	width: 1440px;
+	text-align: center;
+  }
+  
+  
+  
+  main .recipeSection .recipe {
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	font-family: var(--secondary-font-family);
+	height: 645px;
+	width: 380px;
+	background-color: white;
+	overflow: hidden;
+  }
+  
+  
+  
+  main .recipe img {
+	width: 380px;
+	height: 253px;
+	border-radius: 5px 5px 0 0;
+	object-fit: cover;
+	margin-bottom: -20px;
+  }
+  
+  
+  main .recipe .recipeName {
+	font-family: var(--primary-font-family);
+	font-size: 18px;
+	font-weight: 400;
+	margin-top: 0;
+	padding-left: 15px;
+  }
+  
+  main .recipeSection .recipe h3 {
+	font-family: var(--secondary-font-family);
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--dark-grey);
+	margin-bottom: 10px;
+  }
+  
+  

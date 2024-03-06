@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ee84ea85d0.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Les petits plats</title>
+  </head>
+  <body>
+    <header>
+      <a href="./index.html">
+        <img
+          src="assets/icons/logo.png"
+          class="header-logo"
+          alt="Logo Les Petits Plats"
+          role="link"
+          aria-label="Les Petis Plats homepage"
+        />
+      </a>
+      <h1 class="header-slogan">
+        CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES
+      </h1>
+      <div class="header-searchbar">
+        <input
+          type="text"
+          class="header-input_searchbar"
+          placeholder="Rechercher une recette, un ingrédient, ..."
+          id="input_searchbar"
+        />
+        <span class="fa-stack fa-2x" role="button" tabindex="0">
+          <span class="fa-solid fa-square fa-stack-2x"></span>
+          <span class="fa-solid fa-magnifying-glass fa-stack-1x"></span>
+        </span>
+      </div>
+    </header>
+    <main>
+      <div class="list-recipe-cards">
+        <div class="dropdown-bar">
+          <div id="dropdown-ingredients" class="dropdown">
+            <button class="dropdown-title">Ingrédients</button>
+            <div class="dropdown-content" id="dropdown-content_ingredients">
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                id="dropdown-search-ingredients"
+              />
+              <span class="fa-solid fa-magnifying-glass"></span>
+              <ul id="list-ingredients">
+                <li>Option 1</li>
+              </ul>
+            </div>
+          </div>
+          <div id="dropdown-appareils" class="dropdown">
+            <button class="dropdown-title">Appareils</button>
+            <div class="dropdown-content" id="dropdown-content-appareils">
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                id="dropdown-search-appareils"
+              />
+              <span class="fa-solid fa-magnifying-glass"></span>
+              <ul id="list-appareils">
+                <li>Option 1</li>
+              </ul>
+            </div>
+          </div>
+          <div id="dropdown-utensils" class="dropdown">
+            <button class="dropdown-title">Utensiles</button>
+            <div class="dropdown-content" id="dropdown-content-utensils">
+              <input
+                type="text"
+                placeholder="Rechercher ..."
+                id="dropdown-search-utensils"
+              />
+              <span class="fa-solid fa-magnifying-glass"></span>
+              <ul id="list-utensils">
+                <li>Option 1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="recipes-number">X recettes</div>
+      </div>
+      <div class="addedTags"></div>
+      <section class="recipeSection" id="recipeSection"></section>
+    </main>
+	<script type="module" src="scripts/main.js"></script>
+  </body>
+</html>
