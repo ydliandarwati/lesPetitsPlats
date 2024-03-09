@@ -1,16 +1,15 @@
 import { recipes } from './recipes.js';
 import { capitalizeFirstLetter } from './utils.js';
 
-// Populate dropdown list with elements
-function populateDropdown(ulSelector, itemsSet, type) {
+// Fill the dropdown list with elements
+function fillDropdown(ulSelector, itemsSet) {
 	const ulElement = document.querySelector(ulSelector);
-  ulElement.textContent = '';
+  	ulElement.textContent = '';
 
   // For each item in the provided set, create a new list item (li) and append it to the ul
   itemsSet.forEach((item) => {
     const li = document.createElement('li');
     li.textContent = item;
-    li.setAttribute('data-type', type);
     ulElement.appendChild(li);
   });
 }
@@ -37,11 +36,9 @@ export function showIngredientsOptions() {
       .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })),
   );
   // Calls the function to fill the ingredients dropdown with items from the set
-  populateDropdown(
+  fillDropdown(
     '#dropdown-search-ingredients + .fa-solid + ul',
-    ingredientsSet,
-    'ingredient',
-  );
+    ingredientsSet);
 }
 
 // show appliances options for dropdown menu
@@ -64,11 +61,9 @@ export function showAppareilsOptions() {
   );
 
   // Calls the function to fill the appliances dropdown with items from the set
-  populateDropdown(
+  fillDropdown(
     '#dropdown-search-appareils + .fa-solid + ul',
-    appliancesSet,
-    'appliance',
-  );
+    appliancesSet);
 }
 
 // show utensils options for dropdown menu
@@ -93,9 +88,7 @@ export function showUtensilsOptions() {
   );
 
   // Calls the function to fill the ustensils dropdown with items from the set
-  populateDropdown(
+  fillDropdown(
     '#dropdown-search-utensils + .fa-solid + ul',
-    ustensilsSet,
-    'ustensil',
-  );
+    ustensilsSet);
 }

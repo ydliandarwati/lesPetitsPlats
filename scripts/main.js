@@ -1,4 +1,6 @@
-import {  showAppareilsOptions, showIngredientsOptions, showUtensilsOptions } from './filterItems.js';
+import { recipes } from './recipes.js';
+import { recipeFactory } from './recipeFactory.js';
+import { showAppareilsOptions, showIngredientsOptions, showUtensilsOptions } from './filterItems.js';
 
 // Initializes the page with default settings and loads content.
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,7 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // launch page with filter and contents
 function launchPage() {
-  showFilterOptions();
+	showFilterOptions();
+
+	// add recipes cards
+	const recipesSection = document.querySelector('.recipeSection');
+	recipes.forEach((recipe) => {
+	const recipeCard = recipeFactory(recipe);
+	recipesSection.appendChild(recipeCard);
+	});
+
 }
 
 // show filter items and populates the dropdown lists.
