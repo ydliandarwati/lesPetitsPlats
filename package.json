@@ -1,0 +1,22 @@
+{
+  "name": "oc_project7",
+  "version": "1.0.0",
+  "description": "project lesPetitsPlats of openclassroom for JS/react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ydliandarwati/lesPetitsPlats.git"
+  },
+  "author": "Yunita Liandarwati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ydliandarwati/lesPetitsPlats/issues"
+  },
+  "homepage": "https://github.com/ydliandarwati/lesPetitsPlats#readme",
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  }
+}
