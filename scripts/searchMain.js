@@ -1,10 +1,10 @@
 import { recipes } from './recipes.js';
 import { recipeFactory } from './recipeFactory.js';
-import { updateRecipeCount } from './utils.js';
-import { updateListOptions } from './filterItems.js';
+import { showRecipesCount } from './utils.js';
+import { updateFilters } from './filterItems.js';
 import { filteredRecipesByTags, searchByTags } from './tagManager.js';
 
-export let currentSearchQuery = '';
+let search_keywords = '';
 
 document.addEventListener('DOMContentLoaded', () => {
 	// as soon as page is loaded ...
@@ -13,81 +13,79 @@ document.addEventListener('DOMContentLoaded', () => {
   
 	// listen for chages in search input --> apply filters then --> shown recipes get updated
 	searchInput.addEventListener('input', () => {
-		currentSearchQuery = searchInput.value.trim().toLowerCase();
+		search_keywords = searchInput.value.trim().toLowerCase();
 		applyFilters();
 	});
 	
-	// Add event listener to the tag container to listen for changes
+	// add event listener to the tag container to listen for changes
 	// then update filteredRecipesByTags
 	tagContainer.addEventListener('change', () => {
-		// Update the filtered recipes by tags
+		// update the filtered recipes by tags
 		let filteredRecipes = searchByTags();
 		if (filteredRecipes) {
+			// eslint-disable-next-line no-import-assign
 			filteredRecipesByTags = filteredRecipes;
 		}
 
-		// Check if the search query is valid
-		if (currentSearchQuery && currentSearchQuery.length >= 3) {
-		// Apply the search query to the filtered recipes
-			filteredRecipes = searchRecipes(currentSearchQuery, filteredRecipes);
+		// check if the search query is valid
+		if (search_keywords && search_keywords.length >= 3) {
+		// apply the search query to the filtered recipes
+			filteredRecipes = searchRecipes(search_keywords, filteredRecipes);
 		}
 
-		// Update the recipe section with the filtered recipes
+		// ppdate the recipe section with the filtered recipes
 		updateRecipResults(filteredRecipes);
 	});
 });
 
-// Search recipes by name, ingredients, or description
-export function searchRecipes(query, recipesToFilter = recipes) {
+// simple version using loops
+// search recipes by name, ingredients, or description
+export function searchRecipes(query, inputRecipes) {
 	const matchedRecipes = [];
-	const searchTerms = query.split(' ');
+	const keywords = query.split(' '); // split the query to get all keywords
 	// For each recipe, check if all the search terms are found in the recipe name, description, or ingredients
-	for (let i = 0; i < recipesToFilter.length; i++) {
-		const { name, ingredients, description } = recipesToFilter[i];
+	for (let i = 0; i < inputRecipes.length; i++) {
+		const { name, ingredients, description } = inputRecipes[i];
 
-		let searchableText = name.toLowerCase() + ' ' + description.toLowerCase();
-		// Add all the ingredients to the searchable text
+		// create a long string to search into from name + description + ingredients
+		let reference_text = name.toLowerCase() + ' ' + description.toLowerCase();
 		for (let j = 0; j < ingredients.length; j++) {
-			searchableText += ' ' + ingredients[j].ingredient.toLowerCase();
+			reference_text += ' ' + ingredients[j].ingredient.toLowerCase();
 		}
 
-		let allTermsFound = true;
-		// Check if all the search terms are found in the searchable text
-		for (let j = 0; j < searchTerms.length; j++) {
-			const term = searchTerms[j].toLowerCase();
+		let find_flag= true;
+		// loop over all keywords, to find them in recipe (reference text)
+		for (let j = 0; j < keywords.length; j++) {
+			const keyword = keywords[j].toLowerCase();
 
 			let termFound = false;
-			// Check if the search term is found in the searchable text
-			for (let k = 0; k <= searchableText.length - term.length; k++) {
-				// If the search term is found, break the loop
-				if (searchableText.substring(k, k + term.length) === term) {
+			// scan reference text from left to right, to find keywords
+			for (let k = 0; k <= reference_text.length - keyword.length; k++) {
+				// terminate search if keyword is found
+				if (reference_text.substring(k, k + keyword.length) === keyword) {
 					termFound = true;
 					break;
 				}
 			}
-			// If the search term is not found, break the loop
+			// if a keyword not found, no need to continue, as that recipe shouldn't be displayed
 			if (!termFound) {
-				allTermsFound = false;
+				find_flag= false;
 				break;
 			}
 		}
-		// If all the search terms are found, add the recipe to the matched recipes
-		if (allTermsFound) {
-			matchedRecipes.push(recipesToFilter[i]);
+		// if all keywords found, fing_flag is true, then add the recipe to the matched recipes
+		if (find_flag) {
+			matchedRecipes.push(inputRecipes[i]);
 		}
 	}
-	return matchedRecipes;
+	return matchedRecipes; // return recipes which includes the keywords
 }
 
-// Update the recipe section with the matched recipes
+// update the recipe section with the matched recipes
 export function updateRecipResults(matchedRecipes) {
-	if (!matchedRecipes) {
-		console.error('matchedRecipes is undefined');
-		return; // Exit the function if matchedRecipes is undefined
-	}
 	const recipeSection = document.querySelector('.recipeSection');
 	recipeSection.textContent = '';
-	// If no recipe is found, display an error message
+	// display an error message if no recipe is found
 	if (matchedRecipes.length === 0) {
 		const errorMessage = document.createElement('p');
 		errorMessage.classList.add('errorMessage');
@@ -95,7 +93,6 @@ export function updateRecipResults(matchedRecipes) {
 			.querySelector('.header-input_searchbar')
 			.value.trim()}’ vous pouvez chercher « tarte aux pommes », « poisson », etc.`;
 		recipeSection.appendChild(errorMessage);
-		// Else, display the matched recipes
 	} else {
 		matchedRecipes.forEach((recipe) => {
 			const recipeCard = recipeFactory(recipe);
@@ -103,8 +100,8 @@ export function updateRecipResults(matchedRecipes) {
 		});
 	}
 
-	updateRecipeCount(matchedRecipes);
-	updateListOptions(matchedRecipes);
+	showRecipesCount(matchedRecipes); // show number of found recipes
+	updateFilters(matchedRecipes); // update filters based on matched recipes
 }
 
 // Apply the filters to the recipes
@@ -121,8 +118,8 @@ export function applyFilters() {
 
 	// Then, we apply search query filtering as soon as search query is not empty with more than 2 characters
 	// the main search function is searchRecipes
-	if (currentSearchQuery && currentSearchQuery.length >= 3) {
-		currentRecipes = searchRecipes(currentSearchQuery, currentRecipes);
+	if (search_keywords && search_keywords.length >= 3) {
+		currentRecipes = searchRecipes(search_keywords, currentRecipes);
 	}
 
 	// Now, having the filtered list of recipes, we update the recipe section with the filtered recipes

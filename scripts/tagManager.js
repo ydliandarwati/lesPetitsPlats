@@ -1,11 +1,14 @@
-import { updateListElement } from './filterItems.js';
 import { applyFilters, updateRecipResults } from './searchMain.js';
 import { recipes } from './recipes.js';
 
-const addedTags = new Set();
+// selected tag is a global list containing all tags selected by the user
 let selectedTags = { ingredient: [], appliance: [], ustensil: [] };
-document.addEventListener('DOMContentLoaded', () => {
 
+// all recipes matched with selected
+export let filteredRecipesByTags = [];
+
+
+document.addEventListener('DOMContentLoaded', () => {
 	// add listener for each ul element (filter option)
 	document.querySelectorAll('.dropdown-content ul').forEach((li) => {
 		li.addEventListener('click', (event) => {
@@ -15,13 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (li.tagName === 'LI' && !li.classList.contains('selected')) {
 				addTag(li.textContent, type);
 			}
-			searchByTags();
+			searchByTags(); // filter recipes based on selected tags
 		});
 	});
+
+	// live search functionality for each dropdown filter menu	
+	setupDropdownFilter('dropdown-search-ingredients','list-ingredients');
+	setupDropdownFilter('dropdown-search-appareils', 'list-appareils');
+	setupDropdownFilter('dropdown-search-utensils', 'list-utensils');
 });
 
 // add a tag to the list of selected tags
-export function addTag(content, type) {
+function addTag(content, type) {
 	const tagsContainer = document.querySelector('.addedTags');
 	
 	// create html for the new tag, then add it to html
@@ -29,7 +37,6 @@ export function addTag(content, type) {
 	newTag.className = 'tag';
 	newTag.textContent = content;
 	newTag.dataset.type = type;   // to identify the tag type
-	addedTags.add(content);
 	tagsContainer.appendChild(newTag);
 
 
@@ -38,35 +45,23 @@ export function addTag(content, type) {
 		removeTag(newTag, content, type);
 	});
 
-	// Add the tag content to the appropriate array in the 'selectedTags' object
+	// add the tag content to the appropriate array in the 'selectedTags' object
 	selectedTags[type].push(content.toLowerCase());
-	// Dispatch a custom event to notify that a tag has been added, passing details along
-	const event = new CustomEvent('tagAdded', { detail: { content, type } });
-	document.dispatchEvent(event);
 }
 
-// Remove a tag from the list of selected tags
+// remove a tag from the list of selected tags
 function removeTag(tagElement, content, type) {
 	tagElement.remove();
-	addedTags.delete(content);
-	// Find the index of the tag content in the appropriate array and remove it
+	// find the index of the tag content in the appropriate array and remove it
 	const index = selectedTags[type].indexOf(content.toLowerCase());
 	if (index > -1) {
 		selectedTags[type].splice(index, 1);
 	}
-	// Update the list element and recipe section in the UI
-	updateListElement();
 	updateRecipResults(recipes);
-	// Re-run the search with the updated list of tags
+	// run the search with the updated list of tags
 	searchByTags();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	// Set up the filter functionality for each dropdown
-	setupDropdownFilter('dropdown-search-ingredients','list-ingredients');
-	setupDropdownFilter('dropdown-search-appareils', 'list-utensils');
-	setupDropdownFilter('dropdown-search-utensils', 'list-appareils');
-});
 
 //  live search for dropdown lists
 function setupDropdownFilter(inputId, listId) {
@@ -87,9 +82,8 @@ function setupDropdownFilter(inputId, listId) {
 	});
 }
 
-export let filteredRecipesByTags = [];
-  
-// Filter recipes based on selected tags
+ 
+// filter recipes based on selected tags
 export function searchByTags() {
 	let selectedTags = document.querySelectorAll('.tag');
 	let currentRecipes = [];

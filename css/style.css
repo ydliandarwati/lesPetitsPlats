@@ -297,7 +297,7 @@
   }
   
   
-  main .recipe .recipeName {
+  main .recipe .recipe_name {
 	font-family: var(--primary-font-family);
 	font-size: 18px;
 	font-weight: 400;
@@ -314,7 +314,7 @@
   }
   
 
-  .recipeDuration {
+  .recipe_duration {
 	font-size: 12px;
 	font-weight: 400;
 	position: relative;
@@ -329,7 +329,7 @@
 	padding-top: 5px;
   }
 
- .recipeDescription {
+ .recipe_description {
 	font-family: var(--secondary-font-family);
 	font-size: 14px;
 	font-weight: 400;
@@ -344,7 +344,7 @@
   }
 
   
-main .recipe .recipeIngredients {
+main .recipe .recipe_ingredients {
 	font-family: var(--secondary-font-family);
 	font-size: 14px;
 	font-weight: 400;
@@ -354,18 +354,18 @@ main .recipe .recipeIngredients {
 	gap: 20px;
   }
   
-  main .recipe .recipeIngredients h3 {
+  main .recipe .recipe_ingredients h3 {
 	margin-bottom: -3px;
   }
   
-  main .recipe .recipeIngredients .recipeIngredientsItems {
+  main .recipe .recipe_ingredients .recipe_ingredients_items {
 	display: flex;
 	flex-direction: column;
 	align-items: start;
 	gap: 5px;
   }
   
-  main .recipe .recipeIngredients .recipeIngredientsName {
+  main .recipe .recipe_ingredients .recipe_ingredients_name {
 	font-family: var(--secondary-font-family);
 	font-size: 14px;
 	font-weight: 500;
@@ -373,14 +373,14 @@ main .recipe .recipeIngredients {
 	margin-top: -5px;
   }
   
-  main .recipe .recipeIngredients .recipeIngredientsQuantity {
+  main .recipe .recipe_ingredients .recipe_ingredients_quantity {
 	font-family: var(--secondary-font-family);
 	font-size: 14px;
 	font-weight: 400;
 	color: var(--dark-grey);
   }
   
-  main .recipe .recipeName {
+  main .recipe .recipe_name {
 	font-family: var(--primary-font-family);
 	font-size: 18px;
 	font-weight: 400;

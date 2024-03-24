@@ -28,15 +28,11 @@ export function showIngredientsOptions() {
 		});
 	});
 
-	// Convert the set to an array
-	ingredientsSet = new Set(
-		[...ingredientsSet]
-		// transform each element,
-			.map(capitalizeFirstLetter)
-		// then sort it
-			.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })),
-	);
-	// Calls the function to fill the ingredients dropdown with items from the set
+	ingredientsSet = Array.from(ingredientsSet)
+		.map(capitalizeFirstLetter) 		// capitalise first letter (for UI)
+		.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));  // then sort;
+	
+	// fill dropdown list using the prepared list of options
 	fillDropdown(
 		'#dropdown-search-ingredients + .fa-solid + ul',
 		ingredientsSet,
@@ -54,16 +50,11 @@ export function showAppareilsOptions() {
 		appliancesSet.add(_recipe.appliance.toLowerCase());
 	});
 
-	// Convert the set to an array
-	appliancesSet = new Set(
-		[...appliancesSet]
-		// transform each element,
-			.map(capitalizeFirstLetter)
-		// then sort it
-			.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })),
-	);
+	appliancesSet = Array.from(appliancesSet)
+		.map(capitalizeFirstLetter)
+		.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
 
-	// Calls the function to fill the appliances dropdown with items from the set
+	// fill dropdown list using the prepared list of options
 	fillDropdown(
 		'#dropdown-search-appareils + .fa-solid + ul',
 		appliancesSet,
@@ -83,16 +74,11 @@ export function showUtensilsOptions() {
 		});
 	});
 
-	// Convert the set to an array
-	ustensilsSet = new Set(
-		[...ustensilsSet]
-		// transform each element,
-			.map(capitalizeFirstLetter)
-		// then sort it
-			.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })),
-	);
+	ustensilsSet = Array.from(ustensilsSet)
+		.map(capitalizeFirstLetter)
+		.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
 
-	// Calls the function to fill the ustensils dropdown with items from the set
+	// fill dropdown list using the prepared list of options
 	fillDropdown(
 		'#dropdown-search-utensils + .fa-solid + ul',
 		ustensilsSet,
@@ -102,65 +88,44 @@ export function showUtensilsOptions() {
 
 
 // update dropdown lists based on the recipes that matched the search criteria
-export function updateListOptions(matchedRecipes) {
-	// Create sets to store unique ingredient, utensil, and appliance values.
+export function updateFilters(matchedRecipes) {
+	// sets to store unique values of ingredient, utensil, and appliance
 	const ingredientsSet = new Set();
 	const ustensilesSet = new Set();
 	const appareilsSet = new Set();
   
-	// Iterate over each recipe that matched the search.
+	// iterate over all matched recipes --> add ingredinets + utensils + appliance to sets
 	matchedRecipes.forEach((recipe) => {
-		// Add each ingredient from the recipe to the ingredients set.
 		recipe.ingredients.forEach((ingredient) => {
 			ingredientsSet.add(ingredient.ingredient.toLowerCase());
 		});
-		// Add each utensil from the recipe to the utensils set
 		recipe.ustensils.forEach((ustensiles) => {
 			ustensilesSet.add(ustensiles.toLowerCase());
 		});
-		// Add the appliance from the recipe to the appliances set
 		appareilsSet.add(recipe.appliance.toLowerCase());
 	});
   
-	// Call a function to update the UI list element for each category
-	updateListElement(
-		document.getElementById('list-ingredients'),
-		ingredientsSet,
-		'ingredient',
-	);
-	updateListElement(
-		document.getElementById('list-utensils'),
-		ustensilesSet,
-		'ustensil',
-	);
-	updateListElement(
-		document.getElementById('list-appareils'),
-		appareilsSet,
-		'appliance',
-	);
+	// now, we pass these sets to another function to update the filter lists, to show only these sets
+	updateFiltersList(document.getElementById('list-ingredients'), ingredientsSet, 'ingredient');
+	updateFiltersList(document.getElementById('list-utensils'), ustensilesSet, 'ustensil');
+	updateFiltersList(document.getElementById('list-appareils'), appareilsSet, 'appliance');
 }
 	
 // Update the dropdown list with the elements of the matched recipes
-export function updateListElement(listElement, itemsSet, itemType) {
-	if (!listElement) {
-		return;
-	}
-	listElement.textContent = '';
+export function updateFiltersList(listElement, itemsSet, itemType) {
+	listElement.textContent = ''; // empty the filter
   
+	// then fill it (similar to the initial version in fillDropdown)
 	// Convert itemsSet to an array, sort it, and capitalize the first letter of each item
 	const sortedItems = Array.from(itemsSet)
 		.map(capitalizeFirstLetter)
 		.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
   
-	// Create and append list items (li elements) for each item in the sorted items list
+	// create and append list items (li elements) for each item in the sorted items list
 	sortedItems.forEach((item) => {
-		const liElement = document.createElement('li');
-		liElement.textContent = item;
-	
-		// Add data-type attribute
-		liElement.setAttribute('data-type', itemType);
-	
-		// Add the created list item to the dropdown list
-		listElement.appendChild(liElement);
+		const li_element = document.createElement('li');
+		li_element.textContent = item;
+		li_element.setAttribute('data-type', itemType);
+		listElement.appendChild(li_element);
 	});
 }

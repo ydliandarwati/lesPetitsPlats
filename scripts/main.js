@@ -1,36 +1,30 @@
 import { recipes } from './recipes.js';
 import { recipeFactory } from './recipeFactory.js';
-import { clearFields } from './utils.js';
+import { clearFields, showRecipesCount } from './utils.js';
 import { showAppareilsOptions, showIngredientsOptions, showUtensilsOptions } from './filterItems.js';
-import { addTag } from './tagManager.js';
+import './tagManager.js'; // handle tags, add/remove, searc, update, ...
 
 
-// Initializes the page with default settings and loads content.
+// initialize the page and load filters (based on data file)
 document.addEventListener('DOMContentLoaded', () => {
 	// clear search field when page loaded
 	document.getElementById('input_searchbar').value = '';
-	//to put filter like original version after refresh
+	// to put filter like original version after refresh
 	clearFields(['dropdown-search-ingredients','dropdown-search-appareils','dropdown-search-utensils']);
 	
-	// load options of 3 filters
-	loadFilterOptions();
+	// show filter items and populates the dropdown lists for 3 filters
+	showIngredientsOptions();
+	showAppareilsOptions();
+	showUtensilsOptions();
 
 	// add recipe cards to recipeSection
 	const recipesSection = document.querySelector('.recipeSection');
 	recipes.forEach((recipe) => {
-	//create card
-		const recipeCard = recipeFactory(recipe);
-		//add card to html
-		recipesSection.appendChild(recipeCard);
+		const recipeCard = recipeFactory(recipe); // create recipe card
+		recipesSection.appendChild(recipeCard); // add card to html
 	});
+
+	// show recipes number. This is the original total number and will change based on user's search/filter 
+	showRecipesCount();
 }
 );
-
-
-// show filter items and populates the dropdown lists.
-function loadFilterOptions() {
-	showIngredientsOptions();
-	showAppareilsOptions();
-	showUtensilsOptions();
-}
-
