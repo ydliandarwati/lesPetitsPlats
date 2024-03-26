@@ -38,49 +38,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 });
 
-// simple version using loops
+// advanced version using filter, map, every, includes functions
 // search recipes by name, ingredients, or description
-export function searchRecipes(query, inputRecipes) {
-	const matchedRecipes = [];
-	const keywords = query.split(' '); // split the query to get all keywords
-	// For each recipe, check if all the search terms are found in the recipe name, description, or ingredients
-	for (let i = 0; i < inputRecipes.length; i++) {
-		const { name, ingredients, description } = inputRecipes[i];
-
-		// create a long string to search into from name + description + ingredients
-		let reference_text = name.toLowerCase() + ' ' + description.toLowerCase();
-		for (let j = 0; j < ingredients.length; j++) {
-			reference_text += ' ' + ingredients[j].ingredient.toLowerCase();
-		}
-
-		let find_flag= true;
-		// loop over all keywords, to find them in recipe (reference text)
-		for (let j = 0; j < keywords.length; j++) {
-			const keyword = keywords[j].toLowerCase();
-
-			let termFound = false;
-			// scan reference text from left to right, to find keywords
-			for (let k = 0; k <= reference_text.length - keyword.length; k++) {
-				// terminate search if keyword is found
-				if (reference_text.substring(k, k + keyword.length) === keyword) {
-					termFound = true;
-					break;
-				}
-			}
-			// if a keyword not found, no need to continue, as that recipe shouldn't be displayed
-			if (!termFound) {
-				find_flag= false;
-				break;
-			}
-		}
-		// if all keywords found, fing_flag is true, then add the recipe to the matched recipes
-		if (find_flag) {
-			matchedRecipes.push(inputRecipes[i]);
-		}
-	}
-	return matchedRecipes; // return recipes which includes the keywords
+export function searchRecipes(query, inputRecipes = recipes) {
+	// split search query to get all keywords
+	const keywords = query.split(' ');
+	// filter the recipes: if return value is true (keywords found), the recipe is kept, otherwise removed from returning list
+	return inputRecipes.filter(({ name, ingredients, description }) => {
+		//make the reference text to search into, using name, description and ingredients
+		const reference_text =
+		[name, description].map((text) => text.toLowerCase()).join(' ') +
+		' ' +
+		ingredients.map((ingredient) => ingredient.ingredient.toLowerCase()).join(' ');
+		// return true if all keywords are found in the reference text
+		return keywords.every((keyword) =>
+			reference_text.includes(keyword.toLowerCase()),
+		);
+	});
 }
-
+  
 // update the recipe section with the matched recipes
 export function updateRecipResults(matchedRecipes) {
 	const recipeSection = document.querySelector('.recipeSection');
