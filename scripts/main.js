@@ -2,7 +2,7 @@ import { recipes } from './recipes.js';
 import { recipeFactory } from './recipeFactory.js';
 import { clearFields, showRecipesCount } from './utils.js';
 import { showAppareilsOptions, showIngredientsOptions, showUtensilsOptions } from './filterItems.js';
-import './tagManager.js'; // handle tags, add/remove, searc, update, ...
+import './tagManager.js'; // handle tags, add/remove, searchgit c, update, ...
 
 
 // initialize the page and load filters (based on data file)

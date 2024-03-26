@@ -112,8 +112,8 @@ export function updateFilters(matchedRecipes) {
 }
 	
 // Update the dropdown list with the elements of the matched recipes
-export function updateFiltersList(listElement, itemsSet, itemType) {
-	listElement.textContent = ''; // empty the filter
+export function updateFiltersList(filterList, itemsSet, itemType) {
+	filterList.textContent = ''; // empty the filter
   
 	// then fill it (similar to the initial version in fillDropdown)
 	// Convert itemsSet to an array, sort it, and capitalize the first letter of each item
@@ -126,6 +126,6 @@ export function updateFiltersList(listElement, itemsSet, itemType) {
 		const li_element = document.createElement('li');
 		li_element.textContent = item;
 		li_element.setAttribute('data-type', itemType);
-		listElement.appendChild(li_element);
+		filterList.appendChild(li_element);
 	});
 }
