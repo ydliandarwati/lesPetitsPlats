@@ -8,9 +8,8 @@ import './tagManager.js'; // handle tags, add/remove, searc, update, ...
 // initialize the page and load filters (based on data file)
 document.addEventListener('DOMContentLoaded', () => {
 	// clear search field when page loaded
-	document.getElementById('input_searchbar').value = '';
-	// to put filter like original version after refresh
-	clearFields(['dropdown-search-ingredients','dropdown-search-appareils','dropdown-search-utensils']);
+	// and put filter like original version after refresh
+	clearFields(['dropdown-search-ingredients','dropdown-search-appareils','dropdown-search-utensils', 'input_searchbar']);
 	
 	// show filter items and populates the dropdown lists for 3 filters
 	showIngredientsOptions();
