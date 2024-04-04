@@ -2,39 +2,18 @@ import { recipes } from './recipes.js';
 import { recipeFactory } from './recipeFactory.js';
 import { showRecipesCount } from './utils.js';
 import { updateFilters } from './filterItems.js';
-import { filteredRecipesByTags, searchByTags } from './tagManager.js';
+import { filteredRecipesByTags } from './tagManager.js';
 
 let search_keywords = '';
 
 document.addEventListener('DOMContentLoaded', () => {
 	// as soon as page is loaded ...
 	const searchInput = document.querySelector('.header-input_searchbar'); // fetch search input text
-	const tagContainer = document.querySelector('.addedTags'); // fetch list of all selected tags
   
 	// listen for chages in search input --> apply filters then --> shown recipes get updated
 	searchInput.addEventListener('input', () => {
 		search_keywords = searchInput.value.trim().toLowerCase();
 		applyFilters();
-	});
-	
-	// add event listener to the tag container to listen for changes
-	// then update filteredRecipesByTags
-	tagContainer.addEventListener('change', () => {
-		// update the filtered recipes by tags
-		let filteredRecipes = searchByTags();
-		if (filteredRecipes) {
-			// eslint-disable-next-line no-import-assign
-			filteredRecipesByTags = filteredRecipes;
-		}
-
-		// check if the search query is valid
-		if (search_keywords && search_keywords.length >= 3) {
-		// apply the search query to the filtered recipes
-			filteredRecipes = searchRecipes(search_keywords, filteredRecipes);
-		}
-
-		// ppdate the recipe section with the filtered recipes
-		updateRecipResults(filteredRecipes);
 	});
 });
 
