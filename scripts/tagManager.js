@@ -1,10 +1,10 @@
-import { applyFilters, updateRecipResults } from './searchMain.js';
+import { applyFilters } from './searchMain.js';
 import { recipes } from './recipes.js';
 
 // selected tag is a global list containing all tags selected by the user
-let selectedTags = { ingredient: [], appliance: [], ustensil: [] };
+const addedTags = new Set(); // a simple list (set) without type (for not adding duplicate tags)
 
-// all recipes matched with selected
+// all recipes matched with selected tags
 export let filteredRecipesByTags = [];
 
 
@@ -12,13 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	// add listener for each ul element (filter option)
 	document.querySelectorAll('.dropdown-content ul').forEach((li) => {
 		li.addEventListener('click', (event) => {
-			const li = event.target;
+			const li = event.target; // find the clicked tag to add
 			const type = li.dataset.type;
 			// add tag if not selected before
-			if (li.tagName === 'LI' && !li.classList.contains('selected')) {
+			if (li.tagName === 'LI' && !addedTags.has(li.textContent)) {
 				addTag(li.textContent, type);
 			}
-			searchByTags(); // filter recipes based on selected tags
 		});
 	});
 
@@ -39,27 +38,20 @@ function addTag(content, type) {
 	newTag.dataset.type = type;   // to identify the tag type
 	tagsContainer.appendChild(newTag);
 
+	addedTags.add(content); // add tag to the list (to check later when we add other tags)
+	searchByTags(); // filter recipes based on selected tags
 
-	// listener for 'click' event --> remove tag when clicked 
+	// as soon as we create new tag we add listener for 'click' event --> remove tag when clicked 
 	newTag.addEventListener('click', () => {
-		removeTag(newTag, content, type);
+		removeTag(newTag, content);
 	});
-
-	// add the tag content to the appropriate array in the 'selectedTags' object
-	selectedTags[type].push(content.toLowerCase());
 }
 
 // remove a tag from the list of selected tags
-function removeTag(tagElement, content, type) {
-	tagElement.remove();
-	// find the index of the tag content in the appropriate array and remove it
-	const index = selectedTags[type].indexOf(content.toLowerCase());
-	if (index > -1) {
-		selectedTags[type].splice(index, 1);
-	}
-	updateRecipResults(recipes);
-	// run the search with the updated list of tags
-	searchByTags();
+function removeTag(tagElement, content) {
+	addedTags.delete(content); // remove tag from the list
+	tagElement.remove(); // remove element from html
+	searchByTags(); // run the search with the updated list of tags
 }
 
 
@@ -85,17 +77,13 @@ function setupDropdownFilter(inputId, listId) {
  
 // filter recipes based on selected tags
 export function searchByTags() {
+	// find all tags
 	let selectedTags = document.querySelectorAll('.tag');
-	let currentRecipes = [];
+	let matchedRecipes = [];
+
   
-	if (selectedTags.length === 0) {
-		filteredRecipesByTags = recipes;
-		applyFilters();
-		return recipes;
-	}
-  
-	// Itereate over each recipe
-	recipes.forEach((recipeData) => {
+	// Itereate over each recipe, find those including all tags, and put them inside matchedRecipes list
+	recipes.forEach((recipe) => {
 		let allTagsFound = true;
   
 		// Check each selected tag to see if it is found in the current recipe
@@ -105,21 +93,21 @@ export function searchByTags() {
   
 			switch (tagType) {
 			case 'ingredient': {
-				let ingredientNames = recipeData.ingredients.map((ing) =>
+				let ingredientNames = recipe.ingredients.map((ing) =>
 					ing.ingredient.trim().toLowerCase(),
 				);
 				if (!ingredientNames.includes(tagValue)) allTagsFound = false;
 				break;
 			}
 			case 'ustensil': {
-				let isUstensilFound = recipeData.ustensils.some(
+				let isUstensilFound = recipe.ustensils.some(
 					(ustensil) => ustensil.trim().toLowerCase() === tagValue,
 				);
 				if (!isUstensilFound) allTagsFound = false;
 				break;
 			}
 			case 'appliance': {
-				if (recipeData.appliance.trim().toLowerCase() !== tagValue) {
+				if (recipe.appliance.trim().toLowerCase() !== tagValue) {
 					allTagsFound = false;
 				}
 				break;
@@ -129,16 +117,15 @@ export function searchByTags() {
   
 		// If all tags are found, add the recipe to the list of recipes to display
 		if (allTagsFound) {
-			currentRecipes.push(recipeData);
+			matchedRecipes.push(recipe);
 		}
 	});
    
-	// Update the filtered recipes state
-	filteredRecipesByTags = currentRecipes;
+	// update global list of matched recipes based on tags
+	filteredRecipesByTags = matchedRecipes;
   
-	// Apply the filters
+	// apply the filters --> list of rcipes will be updated in html
 	applyFilters();
   
-	return currentRecipes;
 }
   
