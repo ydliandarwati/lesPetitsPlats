@@ -1,8 +1,8 @@
 import { recipes } from './recipes.js';
-import { recipeFactory } from './recipeFactory.js';
+import { recipeFactory } from './recipeFactory.js'; // to create recipe cards
 import { clearFields, showRecipesCount } from './utils.js';
 import { showAppareilsOptions, showIngredientsOptions, showUtensilsOptions } from './filterItems.js';
-import './tagManager.js'; // handle tags, add/remove, searc, update, ...
+import './tagManager.js'; // handle tags, add/remove, search, update, ...
 
 
 // initialize the page and load filters (based on data file)
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// add recipe cards to recipeSection
 	const recipesSection = document.querySelector('.recipeSection');
+	
 	recipes.forEach((recipe) => {
 		const recipeCard = recipeFactory(recipe); // create recipe card
 		recipesSection.appendChild(recipeCard); // add card to html

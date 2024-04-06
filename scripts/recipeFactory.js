@@ -1,5 +1,7 @@
 import { capitalizeFirstLetter } from './utils.js';
 
+
+// the function recipe factory return a div html as a recipe card
 export function recipeFactory(data) {
 	const { image, time, name, description, ingredients } = data;
 
